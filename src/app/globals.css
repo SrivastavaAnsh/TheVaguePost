@@ -3,55 +3,46 @@
 @tailwind utilities;
 
 :root {
-  --bg-canvas: #FAFAFA;
-  --text-main: #111111;
-  --text-muted: #666666;
+  --bg-canvas: #FEF7F0;
+  --text-main: #0F172A;
+  --text-muted: #64748B;
 }
 
 body {
   margin: 0;
   padding: 0;
-  background-color: #FAFAFA;
-  color: #111111;
+  background-color: #FEF7F0;
+  color: #0F172A;
   font-family: 'Kanit', sans-serif;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Subtle graffiti dot & sketch pattern */
-.graffiti-canvas {
-  background-color: #FAFAFA;
-  background-image: 
-    radial-gradient(#E5E5E5 1px, transparent 1px),
-    radial-gradient(#EDEDED 1px, #FAFAFA 1px);
-  background-size: 24px 24px;
-  background-position: 0 0, 12px 12px;
+/* Cosmic doodle background matching user reference image */
+.cosmic-canvas {
+  background-color: #FEF7F0;
+  background-image: url('/cosmic-doodles.svg');
+  background-repeat: repeat;
+  background-size: 420px 420px;
+  background-attachment: fixed;
 }
 
-/* Marker highlight effect */
-.marker-highlight {
+/* Highlight badge */
+.marker-sparkle {
   position: relative;
   display: inline-block;
 }
-.marker-highlight::after {
+.marker-sparkle::after {
   content: '';
   position: absolute;
   left: -4px;
   right: -4px;
   bottom: 2px;
-  height: 38%;
-  background-color: #FFE600;
+  height: 35%;
+  background-color: #FEF08A;
   z-index: -1;
-  transform: rotate(-1deg);
-  border-radius: 2px;
-}
-
-/* Hand-drawn tape effect for pinned cards */
-.tape-strip {
-  background: rgba(255, 230, 0, 0.85);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
-  transform: rotate(-2deg);
+  border-radius: 4px;
 }
 
 /* Custom minimal scrollbar */
@@ -61,16 +52,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #FAFAFA;
+  background: #FEF7F0;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D4D4D4;
+  background: #E2E8F0;
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #A3A3A3;
+  background: #CBD5E1;
 }
 
 .no-scrollbar::-webkit-scrollbar {

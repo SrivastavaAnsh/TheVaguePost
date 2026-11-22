@@ -7,7 +7,6 @@ import { PostCard } from '@/components/PostCard';
 import { PinnedSection } from '@/components/PinnedSection';
 import { PasskeyModal } from '@/components/PasskeyModal';
 import { NewThoughtModal } from '@/components/NewThoughtModal';
-import { GraffitiBackground } from '@/components/GraffitiBackground';
 import { useToast } from '@/components/Toast';
 
 export default function HomePage() {
@@ -60,10 +59,7 @@ export default function HomePage() {
   const feedPosts = posts.filter((p) => !p.is_pinned);
 
   return (
-    <div className="relative min-h-screen bg-canvas graffiti-canvas text-ink font-kanit">
-      {/* Colorful Graffiti Art, Stars, Strings & Doodles across the entire screen */}
-      <GraffitiBackground />
-
+    <div className="relative min-h-screen bg-[#FEF7F0] cosmic-canvas text-ink font-kanit">
       {/* Full-Width Header */}
       <Header
         isAuthor={isAuthor}
@@ -73,16 +69,19 @@ export default function HomePage() {
         pinnedCount={pinnedPosts.length}
       />
 
-      {/* Main Content Area */}
+      {/* Main Stream Area */}
       <main className="max-w-2xl mx-auto px-4 py-8 relative z-10">
-        {/* Title Area */}
-        <div className="mb-8 flex items-center justify-between border-b border-neutral-200/80 pb-4">
+        {/* Clean Aesthetic Intro */}
+        <div className="mb-8 flex items-center justify-between border-b border-black/[0.06] pb-4">
           <div>
-            <h1 className="text-2xl sm:text-3xl font-black text-ink tracking-tight flex items-center gap-2">
-              <span className="marker-highlight">Thoughts</span> &amp; Musings
+            <span className="text-[10px] font-mono font-bold tracking-widest uppercase text-indigo-600 block mb-1">
+              LATEST THOUGHTS
+            </span>
+            <h1 className="text-2xl sm:text-3xl font-black text-[#0F172A] tracking-tight flex items-center gap-2">
+              Some thoughts are worth sharing.
             </h1>
-            <p className="text-xs text-muted font-mono mt-1">
-              Read, like, and comment anonymously. Only Ansh posts.
+            <p className="text-xs sm:text-sm text-slate-500 font-normal mt-1 leading-relaxed">
+              A cozy space for ideas, thoughts, and everything in between.
             </p>
           </div>
         </div>
@@ -90,8 +89,8 @@ export default function HomePage() {
         {/* Loading State */}
         {loading ? (
           <div className="py-20 text-center space-y-2">
-            <div className="w-8 h-8 border-2 border-street-green border-t-transparent rounded-full animate-spin mx-auto" />
-            <p className="text-xs font-mono text-muted">Loading thoughts...</p>
+            <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto" />
+            <p className="text-xs font-mono text-slate-400">Loading thoughts...</p>
           </div>
         ) : (
           <>
@@ -105,8 +104,8 @@ export default function HomePage() {
             {/* Stream of Thoughts */}
             <section className="space-y-5">
               {feedPosts.length === 0 && pinnedPosts.length === 0 ? (
-                <div className="py-16 text-center rounded-2xl bg-white border border-neutral-200 p-6">
-                  <p className="text-sm text-muted">
+                <div className="py-16 text-center rounded-3xl bg-white border border-black/[0.05] p-6 shadow-sm">
+                  <p className="text-sm text-slate-500">
                     No thoughts yet.
                   </p>
                 </div>
@@ -126,7 +125,7 @@ export default function HomePage() {
         )}
 
         {/* Clean Footer */}
-        <footer className="mt-16 pt-6 border-t border-neutral-200/80 text-center font-mono text-xs text-muted space-y-2">
+        <footer className="mt-16 pt-6 border-t border-black/[0.06] text-center font-mono text-xs text-slate-400 space-y-1">
           <p>The VaguePost • Ansh Srivastava</p>
         </footer>
       </main>

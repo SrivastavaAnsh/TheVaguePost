@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Volume2, VolumeX, Plus, Lock, Unlock, Sparkles } from 'lucide-react';
+import { Volume2, VolumeX, Plus, Lock, Unlock } from 'lucide-react';
 import { sound } from './SoundEffects';
 
 interface HeaderProps {
@@ -31,27 +31,23 @@ export function Header({
   };
 
   return (
-    <header className="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-neutral-200">
-      {/* Full width container spanning across the entire screen */}
-      <div className="w-full px-6 sm:px-10 lg:px-12 py-3.5 flex items-center justify-between gap-4">
-        {/* Far Left: Brand & Logo */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-black text-white flex items-center justify-center font-black text-lg tracking-tighter shadow-hard-green">
-            V
+    <header className="sticky top-0 z-40 w-full bg-[#FEF7F0]/85 backdrop-blur-md border-b border-black/[0.06]">
+      {/* Full width stretching across screen: Left to Right */}
+      <div className="w-full px-6 sm:px-10 lg:px-14 py-3.5 flex items-center justify-between gap-4">
+        {/* Far Left: Brand inspired by MyThoughts ✦ in reference image */}
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5">
+            <span className="font-black text-xl sm:text-2xl tracking-tight text-[#0F172A] font-kanit">
+              The VaguePost
+            </span>
+            {/* 4-point Purple Sparkle Star */}
+            <svg className="w-4 h-4 sm:w-5 sm:h-5 text-indigo-500 fill-current" viewBox="0 0 100 100">
+              <path d="M50 0 C50 35, 65 50, 100 50 C65 50, 50 65, 50 100 C50 65, 35 50, 0 50 C35 50, 50 35, 50 0 Z" />
+            </svg>
           </div>
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="font-extrabold text-xl sm:text-2xl tracking-tight text-ink font-kanit">
-                The VaguePost
-              </span>
-              <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-street-green-bg border border-street-green/30 text-street-green font-bold uppercase tracking-wider flex items-center gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-street-green animate-pulse" /> RAW
-              </span>
-            </div>
-            <p className="text-[11px] text-muted font-mono">
-              by <strong className="text-black">Ansh</strong>
-            </p>
-          </div>
+          <span className="text-[11px] font-mono text-slate-500 pl-1 hidden xs:inline">
+            • by Ansh
+          </span>
         </div>
 
         {/* Far Right: Interactive Controls */}
@@ -59,13 +55,13 @@ export function Header({
           {/* Audio Sound Toggle */}
           <button
             onClick={handleToggleSound}
-            title={soundEnabled ? "Mute interactive audio" : "Enable sound effects"}
-            className="p-2 sm:p-2.5 rounded-xl bg-neutral-100 hover:bg-neutral-200 text-neutral-700 transition-colors"
+            title={soundEnabled ? "Mute audio" : "Enable playful sound effects"}
+            className="p-2 rounded-full bg-white/80 hover:bg-white border border-black/[0.06] text-slate-600 transition-colors shadow-sm"
           >
             {soundEnabled ? (
-              <Volume2 className="w-4 h-4 text-street-green" />
+              <Volume2 className="w-4 h-4 text-indigo-600" />
             ) : (
-              <VolumeX className="w-4 h-4 text-neutral-400" />
+              <VolumeX className="w-4 h-4 text-slate-400" />
             )}
           </button>
 
@@ -77,9 +73,9 @@ export function Header({
                   sound.playPop();
                   onOpenNewThought();
                 }}
-                className="flex items-center gap-1.5 px-4 py-2 bg-street-green hover:bg-emerald-700 text-white text-xs sm:text-sm font-semibold rounded-xl shadow-hard transition-transform active:translate-x-0.5 active:translate-y-0.5"
+                className="flex items-center gap-1.5 px-4 py-2 bg-[#0F172A] hover:bg-black text-white text-xs sm:text-sm font-semibold rounded-full shadow-sm hover:shadow transition-all"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-3.5 h-3.5" />
                 <span>New Thought</span>
               </button>
 
@@ -89,7 +85,7 @@ export function Header({
                   onLockAuthor();
                 }}
                 title="Lock author mode"
-                className="p-2 sm:p-2.5 rounded-xl bg-street-green-bg border border-street-green/30 text-street-green hover:bg-emerald-100 transition-colors"
+                className="p-2 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-600 hover:bg-indigo-100 transition-colors"
               >
                 <Unlock className="w-4 h-4" />
               </button>
@@ -101,9 +97,9 @@ export function Header({
                 onOpenPasskey();
               }}
               title="Author Login"
-              className="flex items-center gap-1.5 px-3.5 py-2 bg-neutral-100 hover:bg-neutral-200 text-xs sm:text-sm font-mono text-neutral-800 rounded-xl transition-colors font-medium border border-neutral-200"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-white/80 hover:bg-white text-xs sm:text-sm font-mono text-slate-700 rounded-full transition-colors border border-black/[0.06] shadow-sm"
             >
-              <Lock className="w-3.5 h-3.5 text-neutral-500" />
+              <Lock className="w-3.5 h-3.5 text-slate-400" />
               <span>Author</span>
             </button>
           )}

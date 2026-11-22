@@ -23,10 +23,10 @@ export default function RootLayout({
         />
         <link
           rel="icon"
-          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23111111'/%3E%3Ctext x='32' y='44' font-family='Kanit,sans-serif' font-size='34' font-weight='900' fill='%23FFE600' text-anchor='middle'%3EV%3C/text%3E%3C/svg%3E"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%230F172A'/%3E%3Cpath d='M32 14 C32 23, 37 28, 46 28 C37 28, 32 33, 32 42 C32 33, 27 28, 18 28 C27 28, 32 23, 32 14 Z' fill='%23818CF8'/%3E%3C/svg%3E"
         />
       </head>
-      <body className="bg-canvas text-ink font-kanit antialiased selection:bg-graffiti-yellow selection:text-ink min-h-screen relative overflow-x-hidden">
+      <body className="bg-[#FEF7F0] text-ink font-kanit antialiased selection:bg-amber-200 selection:text-ink min-h-screen relative overflow-x-hidden">
         <ToastProvider>{children}</ToastProvider>
       </body>
     </html>

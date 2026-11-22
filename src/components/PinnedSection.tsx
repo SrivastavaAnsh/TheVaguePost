@@ -22,12 +22,12 @@ export function PinnedSection({
     <section className="mb-8 font-kanit">
       <div className="flex items-center justify-between mb-3 px-1">
         <div className="flex items-center gap-2">
-          <div className="p-1 rounded bg-street-yellow text-black shadow-sm">
+          <div className="p-1 rounded-full bg-amber-100 text-amber-700">
             <Pin className="w-3.5 h-3.5 fill-current" />
           </div>
-          <h2 className="text-sm font-bold uppercase tracking-wider text-ink font-mono flex items-center gap-2">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-800 font-mono flex items-center gap-2">
             Pinned Thoughts
-            <span className="text-[11px] px-2 py-0.5 rounded-full bg-street-green-bg text-street-green border border-street-green/20">
+            <span className="text-[11px] px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
               {pinnedPosts.length}/5
             </span>
           </h2>

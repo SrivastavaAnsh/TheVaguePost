@@ -7,7 +7,8 @@ import {
   MessageSquare, 
   Share2, 
   Pin, 
-  Trash2
+  Trash2,
+  Calendar
 } from 'lucide-react';
 import { Post, VibeCategory } from '@/lib/types';
 import { formatDate } from '@/lib/utils';
@@ -23,14 +24,14 @@ interface PostCardProps {
 }
 
 const CATEGORY_STYLES: Record<VibeCategory, { bg: string; text: string; border: string }> = {
-  'Thought': { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-200' },
-  'Idea': { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-200' },
-  'Hot Take': { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
-  'Observation': { bg: 'bg-neutral-100', text: 'text-neutral-800', border: 'border-neutral-300' },
-  'Shower Thought': { bg: 'bg-teal-50', text: 'text-teal-800', border: 'border-teal-200' },
-  'Late Night': { bg: 'bg-neutral-100', text: 'text-neutral-800', border: 'border-neutral-300' },
-  'Visual Fragment': { bg: 'bg-rose-50', text: 'text-rose-800', border: 'border-rose-200' },
-  'Random Spark': { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-200' },
+  'Thought': { bg: 'bg-indigo-50', text: 'text-indigo-700', border: 'border-indigo-100' },
+  'Idea': { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-100' },
+  'Hot Take': { bg: 'bg-rose-50', text: 'text-rose-700', border: 'border-rose-100' },
+  'Observation': { bg: 'bg-slate-100', text: 'text-slate-700', border: 'border-slate-200' },
+  'Shower Thought': { bg: 'bg-teal-50', text: 'text-teal-700', border: 'border-teal-100' },
+  'Late Night': { bg: 'bg-purple-50', text: 'text-purple-700', border: 'border-purple-100' },
+  'Visual Fragment': { bg: 'bg-pink-50', text: 'text-pink-700', border: 'border-pink-100' },
+  'Random Spark': { bg: 'bg-amber-50', text: 'text-amber-700', border: 'border-amber-100' },
 };
 
 export function PostCard({
@@ -90,10 +91,10 @@ export function PostCard({
       const x = (rect.left + rect.width / 2) / window.innerWidth;
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       confetti({
-        particleCount: 24,
-        spread: 55,
+        particleCount: 20,
+        spread: 50,
         origin: { x, y },
-        colors: ['#059669', '#EF4444', '#FFE600', '#111111'],
+        colors: ['#FBBF24', '#818CF8', '#F472B6', '#38BDF8'],
         disableForReducedMotion: true,
       });
     } else {
@@ -124,7 +125,7 @@ export function PostCard({
 
     if (!post.is_pinned && pinnedCount >= 5) {
       sound.playPop();
-      showToast('Maximum 5 pinned thoughts reached! Unpin one first.', 'error');
+      showToast('Maximum 5 pinned thoughts! Unpin one first.', 'error');
       return;
     }
 
@@ -185,28 +186,28 @@ export function PostCard({
   return (
     <article
       id={post.id}
-      className={`relative rounded-2xl p-5 sm:p-6 bg-white border transition-all ${
+      className={`relative rounded-3xl p-6 sm:p-7 bg-white transition-all ${
         post.is_pinned
-          ? 'border-neutral-900 shadow-hard'
-          : 'border-neutral-200 shadow-soft hover:border-neutral-300'
+          ? 'border border-amber-300 shadow-[0_4px_24px_-4px_rgba(251,191,36,0.15)] ring-1 ring-amber-200'
+          : 'border border-black/[0.05] shadow-[0_4px_20px_-2px_rgba(0,0,0,0.03)] hover:shadow-[0_8px_30px_-4px_rgba(0,0,0,0.06)]'
       }`}
     >
-      {/* Tape strip for pinned thoughts */}
+      {/* Pinned Pill Sticker */}
       {post.is_pinned && (
-        <div className="absolute -top-3 left-6 px-3 py-0.5 rounded-sm bg-street-yellow border border-black/10 text-[10px] font-mono font-black uppercase tracking-wider text-black shadow-sm flex items-center gap-1 -rotate-1">
-          <Pin className="w-2.5 h-2.5 fill-current text-black" />
+        <div className="absolute -top-3 left-7 px-3 py-0.5 rounded-full bg-amber-100 border border-amber-300 text-[10px] font-mono font-bold uppercase tracking-wider text-amber-800 shadow-sm flex items-center gap-1">
+          <Pin className="w-2.5 h-2.5 fill-current text-amber-600" />
           PINNED
         </div>
       )}
 
-      {/* Top Meta Bar */}
+      {/* Top Meta Header */}
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2">
           {/* Category Tag */}
-          <span className={`text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${catStyle.bg} ${catStyle.text} ${catStyle.border}`}>
+          <span className={`text-[11px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full border ${catStyle.bg} ${catStyle.text} ${catStyle.border}`}>
             {post.category}
           </span>
-          <span className="text-[11px] font-mono text-muted">
+          <span className="text-[11px] font-mono text-slate-400">
             {formatDate(post.created_at)}
           </span>
         </div>
@@ -218,10 +219,10 @@ export function PostCard({
               onClick={handleTogglePin}
               disabled={isPinning}
               title={post.is_pinned ? "Unpin thought" : "Pin thought (Max 5)"}
-              className={`p-1.5 rounded-lg border text-xs transition-colors ${
+              className={`p-1.5 rounded-full border text-xs transition-colors ${
                 post.is_pinned
-                  ? 'bg-street-yellow border-black text-black'
-                  : 'bg-neutral-100 border-neutral-200 text-neutral-600 hover:text-black'
+                  ? 'bg-amber-100 border-amber-300 text-amber-800'
+                  : 'bg-slate-50 border-slate-200 text-slate-500 hover:text-black'
               }`}
             >
               <Pin className="w-3.5 h-3.5" />
@@ -230,7 +231,7 @@ export function PostCard({
               onClick={handleDelete}
               disabled={isDeleting}
               title="Delete thought"
-              className="p-1.5 rounded-lg bg-neutral-100 border border-neutral-200 text-neutral-600 hover:text-street-red hover:border-red-200 transition-colors"
+              className="p-1.5 rounded-full bg-slate-50 border border-slate-200 text-slate-500 hover:text-rose-600 hover:border-rose-200 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
             </button>
@@ -240,19 +241,19 @@ export function PostCard({
 
       {/* Title */}
       {post.title && (
-        <h3 className="text-lg sm:text-xl font-bold text-ink tracking-tight mb-2">
+        <h3 className="text-xl sm:text-2xl font-bold text-[#0F172A] tracking-tight mb-2">
           {post.title}
         </h3>
       )}
 
       {/* Content */}
-      <p className="text-sm sm:text-base text-neutral-800 leading-relaxed font-normal whitespace-pre-line">
+      <p className="text-sm sm:text-base text-slate-700 leading-relaxed font-normal whitespace-pre-line">
         {post.content}
       </p>
 
       {/* Media: Image or GIF */}
       {post.media_type !== 'none' && post.media_url && (
-        <div className="mt-4 rounded-xl overflow-hidden border border-neutral-200 bg-neutral-50">
+        <div className="mt-4 rounded-2xl overflow-hidden border border-black/[0.05] bg-slate-50">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={post.media_url}
@@ -263,36 +264,42 @@ export function PostCard({
         </div>
       )}
 
-      {/* Interaction Bar */}
-      <div className="mt-4 pt-3.5 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
-        <div className="flex items-center gap-2">
-          {/* Like Button (Opposite Red on color wheel!) */}
+      {/* Interaction Bar matching reference image aesthetic */}
+      <div className="mt-5 pt-3.5 border-t border-slate-100 flex items-center justify-between text-xs font-mono text-slate-500">
+        <div className="flex items-center gap-3">
+          {/* Date Stamp */}
+          <div className="flex items-center gap-1 text-slate-400">
+            <Calendar className="w-3.5 h-3.5" />
+            <span>{formatDate(post.created_at)}</span>
+          </div>
+
+          {/* Like Button */}
           <button
             onClick={handleLike}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all ${
               hasLiked
-                ? 'bg-street-red-bg border-street-red/30 text-street-red font-bold'
-                : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:text-street-red hover:border-street-red/30'
+                ? 'bg-rose-50 border-rose-200 text-rose-600 font-bold'
+                : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
             }`}
           >
             <Heart
               className={`w-3.5 h-3.5 ${
-                hasLiked ? 'fill-current text-street-red' : ''
+                hasLiked ? 'fill-current text-rose-500' : ''
               }`}
             />
             <span>{likesCount}</span>
           </button>
 
-          {/* Comment Button (Emerald Green highlight!) */}
+          {/* Comment Button */}
           <button
             onClick={() => {
               sound.playPop();
               setCommentsOpen(!commentsOpen);
             }}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full border transition-all ${
               commentsOpen
-                ? 'bg-street-green border-street-green text-white shadow-sm'
-                : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:text-street-green hover:border-street-green/40'
+                ? 'bg-indigo-50 border-indigo-200 text-indigo-700 font-bold'
+                : 'bg-slate-50 hover:bg-slate-100 border-slate-200 text-slate-600'
             }`}
           >
             <MessageSquare className="w-3.5 h-3.5" />
@@ -304,7 +311,7 @@ export function PostCard({
         <button
           onClick={handleShare}
           title="Copy link"
-          className="p-1.5 rounded-xl hover:bg-neutral-100 text-neutral-400 hover:text-neutral-700 transition-colors"
+          className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
         >
           <Share2 className="w-3.5 h-3.5" />
         </button>
