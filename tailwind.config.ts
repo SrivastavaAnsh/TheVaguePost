@@ -9,18 +9,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        ink: "#0D0D0D",
-        charcoal: "#262626",
-        muted: "#737373",
+        ink: "#111111",
+        charcoal: "#222222",
+        muted: "#666666",
         border: "#E5E5E5",
         surface: "#FFFFFF",
-        canvas: "#F7F7F8",
-        graffiti: {
-          yellow: "#FFE600",
-          blue: "#2563EB",
-          red: "#EF4444",
-          green: "#10B981",
-          black: "#111111",
+        canvas: "#FAFAFA",
+        street: {
+          green: "#059669",     // Primary Green
+          "green-light": "#10B981",
+          "green-bg": "#ECFDF5",
+          red: "#DC2626",       // Opposite color on color wheel (Red/Coral)
+          "red-light": "#EF4444",
+          "red-bg": "#FEF2F2",
+          yellow: "#FBBF24",    // Balance Ochre/Yellow
+          "yellow-bright": "#FFE600",
+          "yellow-bg": "#FFFBEB",
+          dark: "#111111",
         },
       },
       fontFamily: {
@@ -29,10 +34,12 @@ const config: Config = {
         sans: ["Kanit", "ui-sans-serif", "system-ui", "-apple-system", "sans-serif"],
       },
       boxShadow: {
-        hard: "3px 3px 0px #000000",
-        "hard-sm": "2px 2px 0px #000000",
-        "hard-lg": "5px 5px 0px #000000",
-        soft: "0 4px 20px -2px rgba(0, 0, 0, 0.05)",
+        hard: "3px 3px 0px #111111",
+        "hard-sm": "2px 2px 0px #111111",
+        "hard-lg": "5px 5px 0px #111111",
+        "hard-green": "3px 3px 0px #059669",
+        "hard-red": "3px 3px 0px #DC2626",
+        soft: "0 2px 12px -2px rgba(0, 0, 0, 0.06)",
       },
     },
   },

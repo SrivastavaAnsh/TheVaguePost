@@ -9,7 +9,7 @@ import {
   Pin, 
   Trash2
 } from 'lucide-react';
-import { Post } from '@/lib/types';
+import { Post, VibeCategory } from '@/lib/types';
 import { formatDate } from '@/lib/utils';
 import { sound } from './SoundEffects';
 import { CommentsDrawer } from './CommentsDrawer';
@@ -21,6 +21,17 @@ interface PostCardProps {
   pinnedCount: number;
   onPostUpdated: () => void;
 }
+
+const CATEGORY_STYLES: Record<VibeCategory, { bg: string; text: string; border: string }> = {
+  'Thought': { bg: 'bg-emerald-50', text: 'text-emerald-800', border: 'border-emerald-200' },
+  'Idea': { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-200' },
+  'Hot Take': { bg: 'bg-red-50', text: 'text-red-700', border: 'border-red-200' },
+  'Observation': { bg: 'bg-neutral-100', text: 'text-neutral-800', border: 'border-neutral-300' },
+  'Shower Thought': { bg: 'bg-teal-50', text: 'text-teal-800', border: 'border-teal-200' },
+  'Late Night': { bg: 'bg-neutral-100', text: 'text-neutral-800', border: 'border-neutral-300' },
+  'Visual Fragment': { bg: 'bg-rose-50', text: 'text-rose-800', border: 'border-rose-200' },
+  'Random Spark': { bg: 'bg-amber-50', text: 'text-amber-800', border: 'border-amber-200' },
+};
 
 export function PostCard({
   post,
@@ -79,10 +90,10 @@ export function PostCard({
       const x = (rect.left + rect.width / 2) / window.innerWidth;
       const y = (rect.top + rect.height / 2) / window.innerHeight;
       confetti({
-        particleCount: 22,
-        spread: 50,
+        particleCount: 24,
+        spread: 55,
         origin: { x, y },
-        colors: ['#FFE600', '#111111', '#EF4444', '#2563EB'],
+        colors: ['#059669', '#EF4444', '#FFE600', '#111111'],
         disableForReducedMotion: true,
       });
     } else {
@@ -113,7 +124,7 @@ export function PostCard({
 
     if (!post.is_pinned && pinnedCount >= 5) {
       sound.playPop();
-      showToast('Maximum 5 pinned thoughts! Unpin one first.', 'error');
+      showToast('Maximum 5 pinned thoughts reached! Unpin one first.', 'error');
       return;
     }
 
@@ -169,6 +180,8 @@ export function PostCard({
     }
   };
 
+  const catStyle = CATEGORY_STYLES[post.category] || CATEGORY_STYLES['Thought'];
+
   return (
     <article
       id={post.id}
@@ -178,10 +191,10 @@ export function PostCard({
           : 'border-neutral-200 shadow-soft hover:border-neutral-300'
       }`}
     >
-      {/* Tape strip for pinned post */}
+      {/* Tape strip for pinned thoughts */}
       {post.is_pinned && (
-        <div className="absolute -top-3 left-6 px-3 py-0.5 rounded-sm bg-graffiti-yellow border border-black/10 text-[10px] font-mono font-black uppercase tracking-wider text-black shadow-sm flex items-center gap-1 -rotate-1">
-          <Pin className="w-2.5 h-2.5 fill-current" />
+        <div className="absolute -top-3 left-6 px-3 py-0.5 rounded-sm bg-street-yellow border border-black/10 text-[10px] font-mono font-black uppercase tracking-wider text-black shadow-sm flex items-center gap-1 -rotate-1">
+          <Pin className="w-2.5 h-2.5 fill-current text-black" />
           PINNED
         </div>
       )}
@@ -190,7 +203,7 @@ export function PostCard({
       <div className="flex items-center justify-between gap-2 mb-3">
         <div className="flex items-center gap-2">
           {/* Category Tag */}
-          <span className="text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-neutral-100 text-neutral-800 border border-neutral-200">
+          <span className={`text-[11px] font-mono font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${catStyle.bg} ${catStyle.text} ${catStyle.border}`}>
             {post.category}
           </span>
           <span className="text-[11px] font-mono text-muted">
@@ -207,7 +220,7 @@ export function PostCard({
               title={post.is_pinned ? "Unpin thought" : "Pin thought (Max 5)"}
               className={`p-1.5 rounded-lg border text-xs transition-colors ${
                 post.is_pinned
-                  ? 'bg-graffiti-yellow border-black text-black'
+                  ? 'bg-street-yellow border-black text-black'
                   : 'bg-neutral-100 border-neutral-200 text-neutral-600 hover:text-black'
               }`}
             >
@@ -217,7 +230,7 @@ export function PostCard({
               onClick={handleDelete}
               disabled={isDeleting}
               title="Delete thought"
-              className="p-1.5 rounded-lg bg-neutral-100 border border-neutral-200 text-neutral-600 hover:text-red-600 hover:border-red-200 transition-colors"
+              className="p-1.5 rounded-lg bg-neutral-100 border border-neutral-200 text-neutral-600 hover:text-street-red hover:border-red-200 transition-colors"
             >
               <Trash2 className="w-3.5 h-3.5" />
             </button>
@@ -225,9 +238,9 @@ export function PostCard({
         )}
       </div>
 
-      {/* Title (if present) */}
+      {/* Title */}
       {post.title && (
-        <h3 className="text-lg font-bold text-ink tracking-tight mb-2">
+        <h3 className="text-lg sm:text-xl font-bold text-ink tracking-tight mb-2">
           {post.title}
         </h3>
       )}
@@ -253,24 +266,24 @@ export function PostCard({
       {/* Interaction Bar */}
       <div className="mt-4 pt-3.5 border-t border-neutral-100 flex items-center justify-between text-xs font-mono">
         <div className="flex items-center gap-2">
-          {/* Like Button */}
+          {/* Like Button (Opposite Red on color wheel!) */}
           <button
             onClick={handleLike}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
               hasLiked
-                ? 'bg-red-50 border-red-200 text-red-600 font-bold'
-                : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-300'
+                ? 'bg-street-red-bg border-street-red/30 text-street-red font-bold'
+                : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:text-street-red hover:border-street-red/30'
             }`}
           >
             <Heart
               className={`w-3.5 h-3.5 ${
-                hasLiked ? 'fill-current text-red-500' : ''
+                hasLiked ? 'fill-current text-street-red' : ''
               }`}
             />
             <span>{likesCount}</span>
           </button>
 
-          {/* Comment Button */}
+          {/* Comment Button (Emerald Green highlight!) */}
           <button
             onClick={() => {
               sound.playPop();
@@ -278,8 +291,8 @@ export function PostCard({
             }}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl border transition-all ${
               commentsOpen
-                ? 'bg-black border-black text-white'
-                : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:text-black hover:border-neutral-300'
+                ? 'bg-street-green border-street-green text-white shadow-sm'
+                : 'bg-neutral-50 border-neutral-200 text-neutral-600 hover:text-street-green hover:border-street-green/40'
             }`}
           >
             <MessageSquare className="w-3.5 h-3.5" />

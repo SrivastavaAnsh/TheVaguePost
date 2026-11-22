@@ -172,7 +172,7 @@ export function CommentsDrawer({
                 key={comment.id}
                 className={`p-3 rounded-xl border ${
                   comment.is_author
-                    ? 'bg-neutral-50 border-black shadow-hard-sm'
+                    ? 'bg-street-green-bg/60 border-street-green/40 shadow-sm'
                     : 'bg-neutral-50/80 border-neutral-200'
                 }`}
               >
@@ -180,7 +180,7 @@ export function CommentsDrawer({
                   <div className="flex items-center gap-2">
                     {comment.is_author ? (
                       <div className="w-6 h-6 rounded-lg bg-black text-white flex items-center justify-center">
-                        <Crown className="w-3.5 h-3.5 text-graffiti-yellow" />
+                        <Crown className="w-3.5 h-3.5 text-street-yellow" />
                       </div>
                     ) : (
                       <div
@@ -193,6 +193,11 @@ export function CommentsDrawer({
                     <span className="text-xs font-bold text-ink">
                       {comment.is_author ? 'Ansh (Author)' : `User ${comment.user_number}`}
                     </span>
+                    {comment.is_author && (
+                      <span className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-street-green text-white font-bold">
+                        AUTHOR
+                      </span>
+                    )}
                   </div>
 
                   <span className="text-[10px] font-mono text-muted">
@@ -234,9 +239,9 @@ export function CommentsDrawer({
                 sound.playPop();
                 setReplyAsAuthor(!replyAsAuthor);
               }}
-              className="text-[10px] font-bold text-black underline"
+              className="text-[10px] font-bold text-street-green underline"
             >
-              {replyAsAuthor ? '★ Replying as Ansh' : 'Replying as Anonymous'}
+              {replyAsAuthor ? '★ Replying as Ansh (Author)' : 'Replying as Anonymous'}
             </button>
           </div>
         )}
@@ -259,7 +264,7 @@ export function CommentsDrawer({
                 setMediaType('none');
                 setMediaUrl('');
               }}
-              className="absolute top-1 right-1 p-0.5 rounded-full bg-black text-white hover:bg-red-600 transition-colors"
+              className="absolute top-1 right-1 p-0.5 rounded-full bg-black text-white hover:bg-street-red transition-colors"
             >
               <X className="w-3 h-3" />
             </button>
@@ -267,13 +272,13 @@ export function CommentsDrawer({
         )}
 
         {isUploading && (
-          <p className="text-[10px] font-mono text-blue-600">
+          <p className="text-[10px] font-mono text-street-green">
             Uploading attachment...
           </p>
         )}
 
         {error && (
-          <p className="text-[10px] font-mono text-red-600 flex items-center gap-1">
+          <p className="text-[10px] font-mono text-street-red flex items-center gap-1">
             <AlertCircle className="w-3 h-3 shrink-0" />
             {error}
           </p>
@@ -307,7 +312,7 @@ export function CommentsDrawer({
           <button
             type="submit"
             disabled={isSubmitting || (!content.trim() && !mediaUrl.trim())}
-            className="flex items-center gap-1 px-3 py-1.5 bg-black hover:bg-neutral-800 text-white text-xs font-semibold rounded-lg shadow-hard-sm disabled:opacity-40 transition-all active:translate-x-0.5 active:translate-y-0.5"
+            className="flex items-center gap-1 px-3 py-1.5 bg-street-green hover:bg-emerald-700 text-white text-xs font-semibold rounded-lg shadow-sm disabled:opacity-40 transition-all active:translate-x-0.5 active:translate-y-0.5"
           >
             <Send className="w-3 h-3" />
             <span>Comment</span>
