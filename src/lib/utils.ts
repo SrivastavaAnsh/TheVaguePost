@@ -30,17 +30,17 @@ export function formatDate(dateString: string): string {
   }
 }
 
-// Generate playful pastel / neon colors and avatar styling for commenter numbers (User #1, User #2...)
+// Clean street/graffiti themed badges for commenter numbers (User 1, User 2...)
 export function getCommenterAvatar(userNumber: number) {
   const themes = [
-    { bg: "from-fuchsia-500 to-purple-600", text: "text-white", border: "border-fuchsia-400/40", emoji: "👾" },
-    { bg: "from-cyan-500 to-blue-600", text: "text-white", border: "border-cyan-400/40", emoji: "🛸" },
-    { bg: "from-emerald-400 to-teal-600", text: "text-black", border: "border-emerald-400/40", emoji: "🪐" },
-    { bg: "from-amber-400 to-orange-500", text: "text-black", border: "border-amber-400/40", emoji: "⚡" },
-    { bg: "from-pink-500 to-rose-600", text: "text-white", border: "border-pink-400/40", emoji: "🌸" },
-    { bg: "from-violet-500 to-indigo-600", text: "text-white", border: "border-violet-400/40", emoji: "🔮" },
-    { bg: "from-lime-400 to-emerald-600", text: "text-black", border: "border-lime-400/40", emoji: "🍄" },
-    { bg: "from-sky-400 to-indigo-500", text: "text-white", border: "border-sky-400/40", emoji: "🌀" },
+    { bg: "bg-black text-white", border: "border-black", tag: "#111111" },
+    { bg: "bg-blue-600 text-white", border: "border-blue-700", tag: "#2563EB" },
+    { bg: "bg-amber-400 text-black", border: "border-amber-500", tag: "#F59E0B" },
+    { bg: "bg-emerald-600 text-white", border: "border-emerald-700", tag: "#059669" },
+    { bg: "bg-neutral-800 text-white", border: "border-neutral-900", tag: "#262626" },
+    { bg: "bg-red-600 text-white", border: "border-red-700", tag: "#DC2626" },
+    { bg: "bg-violet-600 text-white", border: "border-violet-700", tag: "#7C3AED" },
+    { bg: "bg-sky-500 text-white", border: "border-sky-600", tag: "#0284C7" },
   ];
 
   const index = Math.abs((userNumber - 1) % themes.length);

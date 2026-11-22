@@ -1,17 +1,13 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Send, 
   Image as ImageIcon, 
   Film, 
   X, 
   Crown, 
-  Upload, 
-  AlertCircle,
-  MessageCircle,
-  Sparkles
+  AlertCircle
 } from 'lucide-react';
 import { Comment } from '@/lib/types';
 import { formatDate, getCommenterAvatar } from '@/lib/utils';
@@ -43,8 +39,6 @@ export function CommentsDrawer({
   const [error, setError] = useState('');
   const [replyAsAuthor, setReplyAsAuthor] = useState(isAuthor);
   const [gifModalOpen, setGifModalOpen] = useState(false);
-
-  // Visitor Anonymous Token
   const [anonToken, setAnonToken] = useState<string>('');
 
   useEffect(() => {
@@ -117,7 +111,7 @@ export function CommentsDrawer({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim() && !mediaUrl.trim()) {
-      setError('Please add a message, image, or GIF.');
+      setError('Add a comment, image, or GIF.');
       return;
     }
 
@@ -158,159 +152,114 @@ export function CommentsDrawer({
   if (!isOpen) return null;
 
   return (
-    <div className="mt-4 pt-4 border-t border-white/5 space-y-4">
-      {/* Drawer Title */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <MessageCircle className="w-4 h-4 text-accent-cyan" />
-          <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-frost">
-            Discussion & Reactions ({comments.length})
-          </h4>
-        </div>
-        <span className="text-[10px] font-mono text-secondary">
-          No login needed • Commenters get #1, #2...
-        </span>
-      </div>
-
+    <div className="mt-4 pt-4 border-t border-neutral-100 space-y-3 font-kanit">
       {/* Comments List */}
-      <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
+      <div className="space-y-2.5 max-h-80 overflow-y-auto pr-1">
         {loading ? (
-          <div className="py-6 text-center text-xs font-mono text-secondary animate-pulse">
-            Loading conversations...
-          </div>
+          <p className="py-4 text-center text-xs font-mono text-muted">
+            Loading comments...
+          </p>
         ) : comments.length === 0 ? (
-          <div className="py-6 text-center rounded-2xl bg-white/[0.02] border border-white/5 p-4">
-            <p className="text-xs text-secondary font-kanit">
-              No comments yet. Be <strong className="text-accent-glow">User #1</strong> to react!
-            </p>
-          </div>
+          <p className="py-4 text-center text-xs text-muted">
+            No comments yet. Be <strong className="text-black font-mono">User 1</strong> to comment!
+          </p>
         ) : (
           comments.map((comment) => {
             const avatarInfo = getCommenterAvatar(comment.user_number);
 
             return (
-              <motion.div
+              <div
                 key={comment.id}
-                initial={{ opacity: 0, y: 8 }}
-                animate={{ opacity: 1, y: 0 }}
-                className={`p-3.5 rounded-2xl border transition-all ${
+                className={`p-3 rounded-xl border ${
                   comment.is_author
-                    ? 'bg-gradient-to-r from-accent/10 to-accent-cyan/10 border-accent/30 shadow-glow'
-                    : 'bg-[#151922] border-white/5'
+                    ? 'bg-neutral-50 border-black shadow-hard-sm'
+                    : 'bg-neutral-50/80 border-neutral-200'
                 }`}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2.5">
-                    {/* Commenter Avatar */}
+                <div className="flex items-center justify-between mb-1.5">
+                  <div className="flex items-center gap-2">
                     {comment.is_author ? (
-                      <div className="w-7 h-7 rounded-full bg-gradient-to-tr from-accent to-accent-cyan p-0.5 shadow-glow shrink-0">
-                        <div className="w-full h-full bg-[#0C0C0C] rounded-full flex items-center justify-center">
-                          <Crown className="w-3.5 h-3.5 text-amber-300" />
-                        </div>
+                      <div className="w-6 h-6 rounded-lg bg-black text-white flex items-center justify-center">
+                        <Crown className="w-3.5 h-3.5 text-graffiti-yellow" />
                       </div>
                     ) : (
                       <div
-                        className={`w-7 h-7 rounded-full bg-gradient-to-tr ${avatarInfo.bg} flex items-center justify-center border ${avatarInfo.border} text-xs font-mono font-bold shrink-0 shadow-sm`}
+                        className={`w-6 h-6 rounded-lg ${avatarInfo.bg} flex items-center justify-center text-xs font-mono font-bold shadow-sm`}
                       >
-                        <span className={avatarInfo.text}>
-                          {comment.user_number}
-                        </span>
+                        {comment.user_number}
                       </div>
                     )}
 
-                    <div>
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-xs font-bold font-kanit text-frost">
-                          {comment.is_author ? 'Ansh (Author)' : `User ${comment.user_number}`}
-                        </span>
-                        {comment.is_author && (
-                          <span className="text-[9px] font-mono px-1.5 py-0.2 rounded-full bg-accent/20 border border-accent/40 text-accent-glow font-semibold flex items-center gap-0.5">
-                            <Sparkles className="w-2.5 h-2.5" /> AUTHOR
-                          </span>
-                        )}
-                        {!comment.is_author && (
-                          <span className="text-[10px] font-mono text-secondary/60">
-                            #{comment.user_number}
-                          </span>
-                        )}
-                      </div>
-                    </div>
+                    <span className="text-xs font-bold text-ink">
+                      {comment.is_author ? 'Ansh (Author)' : `User ${comment.user_number}`}
+                    </span>
                   </div>
 
-                  <span className="text-[10px] font-mono text-secondary/70">
+                  <span className="text-[10px] font-mono text-muted">
                     {formatDate(comment.created_at)}
                   </span>
                 </div>
 
-                {/* Comment Text */}
                 {comment.content && (
-                  <p className="text-xs text-frost/90 font-kanit leading-relaxed pl-9">
+                  <p className="text-xs text-neutral-800 leading-relaxed pl-8">
                     {comment.content}
                   </p>
                 )}
 
-                {/* Attached Media */}
                 {comment.media_type !== 'none' && comment.media_url && (
-                  <div className="mt-2.5 pl-9">
+                  <div className="mt-2 pl-8">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={comment.media_url}
                       alt="Attachment"
-                      className="max-h-52 rounded-xl border border-white/10 object-cover shadow-md"
+                      className="max-h-48 rounded-lg border border-neutral-200 object-cover"
                       loading="lazy"
                     />
                   </div>
                 )}
-              </motion.div>
+              </div>
             );
           })
         )}
       </div>
 
-      {/* New Comment Input Box */}
-      <form onSubmit={handleSubmit} className="p-3 rounded-2xl bg-[#12151E] border border-white/10 space-y-2.5">
-        {/* Author Mode toggle if logged in */}
+      {/* New Comment Input */}
+      <form onSubmit={handleSubmit} className="p-3 rounded-xl bg-neutral-50 border border-neutral-200 space-y-2">
         {isAuthor && (
-          <div className="flex items-center justify-between pb-2 border-b border-white/5 text-xs font-mono">
-            <span className="text-secondary">Author replying identity:</span>
+          <div className="flex items-center justify-between pb-1.5 border-b border-neutral-200 text-xs font-mono">
+            <span className="text-muted text-[11px]">Identity:</span>
             <button
               type="button"
               onClick={() => {
                 sound.playPop();
                 setReplyAsAuthor(!replyAsAuthor);
               }}
-              className={`px-2 py-0.5 rounded-lg text-[10px] font-mono border transition-all ${
-                replyAsAuthor
-                  ? 'bg-accent/20 border-accent/40 text-accent-glow font-bold'
-                  : 'bg-white/5 border-white/10 text-secondary'
-              }`}
+              className="text-[10px] font-bold text-black underline"
             >
-              {replyAsAuthor ? '★ Replying as Author (Ansh)' : 'Replying as Anonymous'}
+              {replyAsAuthor ? '★ Replying as Ansh' : 'Replying as Anonymous'}
             </button>
           </div>
         )}
 
-        {/* Text Input */}
         <textarea
           rows={2}
-          placeholder="Leave a vague reaction, idea, or thought..."
+          placeholder="Leave a comment (text, image, or GIF)..."
           value={content}
           onChange={(e) => setContent(e.target.value)}
-          className="w-full bg-transparent border-0 text-xs text-frost placeholder:text-secondary/50 focus:outline-none resize-none leading-relaxed"
+          className="w-full bg-transparent border-0 text-xs text-ink placeholder:text-muted focus:outline-none resize-none leading-relaxed"
         />
 
-        {/* Attached preview */}
         {mediaUrl && (
-          <div className="relative inline-block rounded-xl overflow-hidden max-h-36 border border-white/10">
+          <div className="relative inline-block rounded-lg overflow-hidden max-h-28 border border-neutral-200">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={mediaUrl} alt="Attached" className="h-28 w-auto object-cover" />
+            <img src={mediaUrl} alt="Attached" className="h-20 w-auto object-cover" />
             <button
               type="button"
               onClick={() => {
                 setMediaType('none');
                 setMediaUrl('');
               }}
-              className="absolute top-1 right-1 p-1 rounded-full bg-black/80 text-white hover:bg-red-500 transition-colors"
+              className="absolute top-1 right-1 p-0.5 rounded-full bg-black text-white hover:bg-red-600 transition-colors"
             >
               <X className="w-3 h-3" />
             </button>
@@ -318,23 +267,21 @@ export function CommentsDrawer({
         )}
 
         {isUploading && (
-          <p className="text-[11px] font-mono text-accent-cyan animate-pulse">
+          <p className="text-[10px] font-mono text-blue-600">
             Uploading attachment...
           </p>
         )}
 
         {error && (
-          <p className="text-[11px] font-mono text-red-400 flex items-center gap-1">
+          <p className="text-[10px] font-mono text-red-600 flex items-center gap-1">
             <AlertCircle className="w-3 h-3 shrink-0" />
             {error}
           </p>
         )}
 
-        {/* Action Bar */}
-        <div className="flex items-center justify-between pt-1 border-t border-white/5">
+        <div className="flex items-center justify-between pt-1 border-t border-neutral-200">
           <div className="flex items-center gap-1">
-            {/* Upload image */}
-            <label className="cursor-pointer p-1.5 rounded-lg hover:bg-white/5 text-secondary hover:text-frost transition-colors">
+            <label className="cursor-pointer p-1.5 rounded-lg hover:bg-neutral-200 text-neutral-500 hover:text-black transition-colors">
               <input
                 type="file"
                 accept="image/*"
@@ -344,7 +291,6 @@ export function CommentsDrawer({
               <ImageIcon className="w-4 h-4" />
             </label>
 
-            {/* Pick GIF */}
             <button
               type="button"
               onClick={() => {
@@ -352,7 +298,7 @@ export function CommentsDrawer({
                 setGifModalOpen(true);
               }}
               title="Add a GIF"
-              className="p-1.5 rounded-lg hover:bg-white/5 text-secondary hover:text-accent-glow transition-colors"
+              className="p-1.5 rounded-lg hover:bg-neutral-200 text-neutral-500 hover:text-black transition-colors"
             >
               <Film className="w-4 h-4" />
             </button>
@@ -361,10 +307,10 @@ export function CommentsDrawer({
           <button
             type="submit"
             disabled={isSubmitting || (!content.trim() && !mediaUrl.trim())}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-accent hover:bg-accent-glow text-white text-xs font-semibold rounded-xl shadow-glow disabled:opacity-40 transition-all"
+            className="flex items-center gap-1 px-3 py-1.5 bg-black hover:bg-neutral-800 text-white text-xs font-semibold rounded-lg shadow-hard-sm disabled:opacity-40 transition-all active:translate-x-0.5 active:translate-y-0.5"
           >
             <Send className="w-3 h-3" />
-            <span>Send</span>
+            <span>Comment</span>
           </button>
         </div>
       </form>
